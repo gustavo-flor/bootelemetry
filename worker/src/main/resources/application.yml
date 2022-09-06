@@ -1,0 +1,36 @@
+spring:
+  main:
+    banner-mode: off
+  application:
+    name: bootelemetry-worker
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb://localhost:27017/bootelemetry}
+      auto-index-creation: false
+  sleuth:
+    otel:
+      config:
+        trace-id-ratio-based: 1.0
+      exporter:
+        jaeger:
+          endpoint: http://localhost:14250
+    propagation:
+      type: JAEGER
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9092
+          auto-create-topics: true
+          auto-add-partitions: true
+      bindings:
+        AlreadyInUseUsername-out-0:
+          destination: already-in-use-username
+          content-type: application/json
+          producer:
+            partition-count: 3
+        AlreadyInUseUsername-in-0:
+          destination: already-in-use-username
+          content-type: application/json
+          consumer:
+            concurrency: 1
