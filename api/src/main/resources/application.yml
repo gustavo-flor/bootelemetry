@@ -22,16 +22,3 @@ spring:
           endpoint: http://localhost:14250
     propagation:
       type: jaeger
-  cloud:
-    stream:
-      kafka:
-        binder:
-          brokers: localhost:9092
-          auto-create-topics: true
-          auto-add-partitions: true
-      bindings:
-        AlreadyInUseUsername-out-0:
-          destination: already-in-use-username
-          content-type: application/json
-          producer:
-            partition-count: 3
