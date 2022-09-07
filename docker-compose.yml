@@ -1,17 +1,5 @@
 version: '3.8'
 services:
-  otel-collector:
-    hostname: otel-collector
-    image: otel/opentelemetry-collector
-    command:
-      - "--config=/etc/otel-collector-config.yaml"
-    volumes:
-      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
-    ports:
-      - "4317:4317" # OTLP gRPC receiver
-      - "4318:4318" # OTLP http receiver
-      - "13133:13133" # health_check extension
-      - "55679:55679" # zpages extension
   jaeger-all-in-one:
     hostname: jaeger-all-in-one
     image: jaegertracing/all-in-one
@@ -25,3 +13,17 @@ services:
       - "14250:14250" # Accept `model.proto`
       - "14268:14268" # Accept `jaeger.thrift` directly from clients
       - "9411:9411" # Zipkin compatible endpoint (optional)
+  otel-collector:
+    hostname: otel-collector
+    image: otel/opentelemetry-collector
+    command:
+      - "--config=/etc/otel-collector.yml"
+    volumes:
+      - ./otel-collector.yml:/etc/otel-collector.yml
+    ports:
+      - "4317:4317" # OTLP gRPC receiver
+      - "4318:4318" # OTLP http receiver
+      - "13133:13133" # health_check extension
+      - "55679:55679" # zpages extension
+    depends_on:
+      - jaeger-all-in-one
