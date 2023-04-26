@@ -9,3 +9,10 @@ spring:
     name: bootelemetry
   main:
     banner-mode: off
+logging:
+  pattern:
+    level: '%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]'
+management:
+  tracing:
+    sampling:
+      probability: 1.0
