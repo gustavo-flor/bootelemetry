@@ -16,12 +16,12 @@ public class ExampleUseCase {
     private final ExampleService exampleService;
     private final ExampleRepository exampleRepository;
 
-    public void example() {
+    public void example(String exampleInput) {
         final var span = tracer.nextSpan()
                 .name(getClass().getSimpleName());
         try (final var discarded = tracer.withSpan(span)) {
             log.info("Doing some cool use case process...");
-            exampleService.example();
+            exampleService.example(exampleInput);
             span.event("Example service process finished");
             exampleRepository.example();
             span.event("Example repository process finished");

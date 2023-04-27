@@ -26,7 +26,7 @@ public class ExampleController {
         try (final var discarded = tracer.withSpan(span)) {
             log.info("Doing some cool controller process...");
             span.tag(EXAMPLE_HEADER, exampleHeader);
-            exampleUseCase.example();
+            exampleUseCase.example(exampleHeader);
             log.info("Finished cool controller process!");
         } finally {
             span.end();
