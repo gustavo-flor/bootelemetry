@@ -25,12 +25,15 @@ services:
       - "4318:4318" # OTLP http receiver
       - "13133:13133" # health_check extension
       - "55679:55679" # zpages extension
+      - "8889:8889" # Serve prometheus
     depends_on:
       - jaeger-all-in-one
-  prometheus:
-    hostname: prometheus
-    image: prom/prometheus
+  bootelemetry:
+    image: gustavo-flor/bootelemetry
+    build: .
+    command:
+      - "-Dotel.service.name=bootelemetry-1 -Dotel.javaagent.debug=true -Dotel.exporter.otlp.endpoint=http://otel-collector:4317"
+    environment:
+      SPAN_EXPORTER_ENDPOINT: http://otel-collector:4317
     ports:
-      - "9090:9090"
-    volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - "8080:8080"

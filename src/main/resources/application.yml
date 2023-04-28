@@ -23,4 +23,6 @@ management:
         prometheus: metrics
   tracing:
     sampling:
-      probability: 1.0
+      probability: 1.0 # Be careful with this in a production environment
+otel:
+  span-exporter-endpoint: ${SPAN_EXPORTER_ENDPOINT:http://localhost:4317}
